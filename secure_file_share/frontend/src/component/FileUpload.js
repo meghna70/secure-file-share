@@ -5,7 +5,6 @@ import CryptoJS from 'crypto-js';
 import { Button, CircularProgress, Typography } from '@mui/material';
 import { uploadFile, fetchFiles } from "../redux/slices/fileSlice"
 import "../App.css"
-import SECRET_KEY from "../.env"
 const UploadPage = () => {
     const dispatch = useDispatch();
     const { user, token, loading, error } = useSelector((state) => state.auth);
@@ -17,7 +16,7 @@ const UploadPage = () => {
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
-    const SECRET_KEY_AES = CryptoJS.enc.Hex.parse(SECRET_KEY)
+    const SECRET_KEY_AES = CryptoJS.enc.Hex.parse("A675C253D82ABA369BAF6C3F75AB8A675C253D82ABA369BAF6C3F75AB8A675")
     const encryptFile = (file) => {
 
         return new Promise((resolve, reject) => {

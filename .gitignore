@@ -1,6 +1,6 @@
 # Node.js dependencies
 node_modules/
-media
+
 # Environment variables
 env/
 .env

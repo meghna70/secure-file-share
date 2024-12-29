@@ -92,22 +92,18 @@ function ShareModal(props) {
                                     // style={{ width: "50%" }}
                                     id="access"
                                     value={accessSelected}
-
                                     name='access'
                                     label="access"
                                     labelId="access-label"
                                     onChange={(e) => setAccessSelected(e.target.value)}
                                     required
                                 >
-
-                                    <MenuItem key={1} value={user.username}>
+                                    <MenuItem key={1} value={"View"}>
                                         View
                                     </MenuItem>
-                                    <MenuItem key={2} value={user.username}>
+                                    <MenuItem key={2} value={"Download"}>
                                         Download
                                     </MenuItem>
-
-                                    {/* <MenuItem value={"Admin"}>Admin</MenuItem> */}
                                 </Select>
                             </div>
 

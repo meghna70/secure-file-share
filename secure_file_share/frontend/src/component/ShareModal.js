@@ -26,7 +26,7 @@ function ShareModal(props) {
     }
 
     const sendMailToShare = async (e) => {
-      
+      e.preventDefault()
         try {
             const body = {
                 to_username: userSelected,

@@ -284,58 +284,54 @@ class FileDelete(APIView):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def send_attachment_email(request):
-    to_username = request.data.get("to_username")
-    from_username = request.data.get("from_username")
-    file_id = request.data.get("file_id")
-    permission_type = request.data.get("permission_type")
-
-    to_user = userList.objects.get(username = to_username)     
-    from_user = userList.objects.get(username = from_username) 
-    share_file = File.objects.get(id=file_id)
-
-    subject = f'Fortifile file is shared with you'
-    message = f'The file shared is attached here. '
-    
-    sender_email = settings.EMAIL_HOST_USER
-
     try:
+        to_username = request.data.get("to_username")
+        from_username = request.data.get("from_username")
+        file_id = request.data.get("file_id")
+        permission_type = request.data.get("permission_type")
+
+        to_user = userList.objects.get(username=to_username)
+        from_user = userList.objects.get(username=from_username)
+        share_file = File.objects.get(id=file_id)
+
+        subject = 'Fortifile file is shared with you'
+        message = 'The file shared is attached here.'
+
         decoded_file = base64.b64decode(share_file.file_blob)
         file_path = os.path.join(settings.MEDIA_ROOT, share_file.filename)
 
-        # Temporarily save the file to attach it
+        # Save temporary file
         with open(file_path, 'wb') as f:
             f.write(decoded_file)
 
-        # Create email with file attachment
+        # Prepare email
         email = EmailMessage(
             subject=subject,
             body=message,
             from_email=settings.EMAIL_HOST_USER,
             to=[to_user.email],
         )
-        email.attach_file(share_file.filename, decoded_file, "application/pdf" )
-
-        # Send email
+        email.attach(share_file.filename, decoded_file, "application/pdf")
         email.send(fail_silently=False)
 
         # Remove temporary file
-        os.remove(file_path)
+        try:
+            os.remove(file_path)
+        except FileNotFoundError:
+            pass
 
+        # Save permission to database
+        Permissions.objects.create(
+            to_username=to_username,
+            from_username=from_username,
+            to_email=to_user.email,
+            from_email=from_user.email,
+            file_id=file_id,
+            filename=share_file.filename,
+            permission_type=permission_type,
+            file_blob=share_file.file_blob
+        )
+
+        return Response({"message": "Shared Link sent successfully."}, status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response({"error": f"Failed to send email with attachment. {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    
-    send_mail(subject, message, sender_email, [to_user.email], fail_silently=False)
-
-    permission_obj = Permissions.objects.create(
-        to_username= to_username, 
-        from_username=from_username, 
-        to_email=to_user.email, 
-        from_email=from_user.email,
-        file_id = file_id,
-        filename = share_file.filename,
-        permission_type = permission_type,
-        file_blob = share_file.file_blob)
-    
-    return Response({ "message": "Shared Link sent successfully."}, status=status.HTTP_201_CREATED)
-      

@@ -25,7 +25,8 @@ function ShareModal(props) {
         }
     }
 
-    const sendMailToShare = async () => {
+    const sendMailToShare = async (e) => {
+      
         try {
             const body = {
                 to_username: userSelected,
@@ -58,7 +59,7 @@ function ShareModal(props) {
                 <div style={styles.uploadPage}>
                     <div style={styles.uploadFormContainer}>
                         <h2>Share this File</h2>
-                        <form onSubmit={() => { sendMailToShare() }}>
+                        <form onSubmit={(e) => { sendMailToShare(e) }}>
                             <div style={styles.formInput}>
                                 <label>Username:</label>
                                 <Select

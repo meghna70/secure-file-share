@@ -40,7 +40,7 @@ function CheckOtp(props) {
                     />
                 </div>
                 <div style={styles.subTitle}>OTP Verification</div>
-                <div style={styles.description}>One Time Password (OTP) has been sent via Email to <div style={{ fontWeight: "500", marginTop: "10px" }}>meghnabal@gmail.com</div></div>
+                <div style={styles.description}>One Time Password (OTP) has been sent via Email to <div style={{ fontWeight: "500", marginTop: "10px" }}>{email}</div></div>
                 <div style={{ ...styles.description, padding: "15px" }}> Enter the OTP below to verify it. </div>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", marginTop: "22px", marginBottom: "22px" }}>
                     <OtpInput

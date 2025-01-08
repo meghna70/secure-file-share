@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import ModalClose from '@mui/joy/ModalClose';
-import UploadPage from './FileUpload';
 import instance from '../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { MenuItem, Select } from '@mui/material';
@@ -34,7 +33,7 @@ function ShareModal(props) {
                 file_id: props.fileId,
                 permission_type: accessSelected
             }
-            const res = await instance.post(`/api/sendEmail`, body)
+            await instance.post(`/api/sendEmail`, body)
         } catch (err) {
             console.log("error:", err)
         }

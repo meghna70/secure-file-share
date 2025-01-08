@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import CryptoJS from 'crypto-js';
-import { Button, CircularProgress, Typography } from '@mui/material';
 import { uploadFile, fetchFiles } from "../redux/slices/fileSlice"
 import "../App.css"
+
 const UploadPage = () => {
     const dispatch = useDispatch();
     const { user, token, loading, error } = useSelector((state) => state.auth);
@@ -16,65 +14,6 @@ const UploadPage = () => {
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
-    const SECRET_KEY_AES = CryptoJS.enc.Hex.parse("A675C253D82ABA369BAF6C3F75AB8A675C253D82ABA369BAF6C3F75AB8A675")
-    const encryptFile = (file) => {
-
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                try {
-                    const fileData = CryptoJS.enc.Base64.parse(reader.result.split(",")[1]);
-                    const iv = CryptoJS.lib.WordArray.random(16); // Random 16-byte IV
-                    const encrypted = CryptoJS.AES.encrypt(fileData, SECRET_KEY_AES, { iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
-
-                    // Combine IV and ciphertext
-                    const result = {
-                        iv: CryptoJS.enc.Base64.stringify(iv),
-                        ciphertext: encrypted.toString(),
-                    };
-                    resolve(result);  // Return base64-encoded IV + ciphertext
-                } catch (error) {
-                    reject(error);
-                }
-            };
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
-    };
-
-    // Handle file upload
-    // const handleUpload = async (e) => {
-    //     e.preventDefault();
-    //     setLoader(true);
-    //     setErr(null);
-    //     if (!file) {
-    //         alert('Please select a file to upload');
-    //         setLoader(false);
-    //         return;
-    //     }
-    //     try {
-    //         const formData = new FormData();
-    //         formData.append('file', file);
-    //         formData.append('username', user.username);
-    //         formData.append('email', user.email);
-    //         formData.append('filename', file.name);
-
-    //         const response = await axios.post('http://127.0.0.1:8000/api/upload', formData, {
-    //             headers: {
-    //                 'Content-Type': 'multipart/form-data',
-    //                 'Authorization': `Bearer ${token}`
-    //             },
-    //         });
-
-    //         setLoader(false);
-    //         setFile(null);
-    //         console.log('Upload successful:', response.data);
-    //     } catch (err) {
-    //         console.error('Error uploading file:', err);
-    //         setLoader(false);
-    //     }
-    // };
-
     const handleUpload = async (e) => {
         e.preventDefault();
         setLoader(true);

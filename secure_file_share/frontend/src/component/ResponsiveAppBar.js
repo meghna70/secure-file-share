@@ -11,15 +11,35 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import ShieldIcon from '@mui/icons-material/Shield';
-// import "./component.css"
-import SecurityTwoToneIcon from '@mui/icons-material/SecurityTwoTone';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
+import shield from "../shield.svg"
+import styled from 'styled-components';
 
-const pages = ['All Users'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const pages = ['My Files', 'Shared Files', 'Doc Summarization ✨'];
+const settings = ['Profile', 'Logout'];
+
+
+const ResponsiveImg = styled.img`
+  display: block;
+  
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+
+const AlterResponsiveImg = styled.img`
+  display: none;
+  
+  @media (max-width: 900px) {
+    display: block;
+  }
+`;
 
 function ResponsiveAppBar() {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -38,43 +58,47 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  const keyframes = `
-@keyframes gradient {
-  0% {
-    background-position: 0% 0%;
+  const handleOnClickMenu = (item) => {
+    item === "My Files" ?
+      navigate("/my-files") :
+      item === "Shared Files" ?
+        navigate("/shared-files") : navigate("/doc");
   }
-  50% {
-    background-position: 100% 100%;
-  }
-  100% {
-    background-position: 0% 0%;
-  }
-}
-`;
+
 
   return (
     <AppBar className='responsive_nav_conatiner'
       style={{
-        ...styles.responsive_nav
+        // ...styles.responsive_nav
+        backgroundColor: "#fff",
+        boxShadow: "none",
+        borderBottom: "2px solid rgb(232, 232, 232)"
       }}
-      position="static">
-        <style>{keyframes}</style>
+      position="fixed">
+
       <Container className='responsive_nav' maxWidth="xl">
         <Toolbar disableGutters>
-          <SecurityTwoToneIcon sx={{ display: { xs: 'none', md: 'flex', color: '#39FF14' }, mr: 1 }} />
+          {/* <SecurityTwoToneIcon sx={{ display: { xs: 'none', md: 'flex', color: '#1b1c1b' }, mr: 1 }} /> */}
+
+          <ResponsiveImg  
+          onClick={() => navigate("/home")}
+          src={shield} alt="logo" />
+
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            onClick={() => navigate("/home")}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              // fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#39FF14',
+              fontSize: "20px",
+              fontFamily: "Lexend, serif" , 
+              color: '#1b1c1b',
               textDecoration: 'none',
+              cursor:"pointer",
             }}
           >
             FortiFile
@@ -87,7 +111,7 @@ function ResponsiveAppBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color="#1b1c1b"
             >
               <MenuIcon />
             </IconButton>
@@ -105,49 +129,58 @@ function ResponsiveAppBar() {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{ display: { xs: 'block', md: 'none' }, display: "flex" }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                <MenuItem key={page} onClick={() => { handleOnClickMenu(page); handleCloseNavMenu(); }}>
+                  <Typography sx={{fontFamily: "Montserrat, serif" , textAlign: 'center', color: "#1b1c1b" }}>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <ShieldIcon sx={{ display: { xs: 'flex', md: 'none', color: '#39FF14' }, mr: 1 }} />
+          {/* <ShieldIcon sx={{ display: { xs: 'flex', md: 'none', color: '#1b1c1b' }, mr: 1 }} /> */}
+
+          <AlterResponsiveImg onClick={() => navigate("/home")}
+            src={shield} alt="logo" />
           <Typography
+            onClick={() => navigate("/home")}
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#39FF14',
+              fontSize: "20px",
+              fontFamily: "Lexend, serif" , 
+              fontWeight: 600,
+              cursor:"pointer",
+              color: '#1b1c1b',
               textDecoration: 'none',
             }}
           >
             FortiFile
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+          <Box sx={{
+            flexGrow: 1,
+            flexDirection: "row-reverse",
+            display: { xs: 'none', md: 'flex' }
+          }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                onClick={()=>{handleOnClickMenu(page); handleCloseNavMenu();}}
+                sx={{ fontFamily: "Montserrat, serif" , my: 2, mr: 1, textTransform: "none", color: '#333333', display: 'block', fontWeight: 600 }}
               >
                 {page}
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar sx={{ border: "1px solid rgb(232, 232, 232)", bgcolor: "#18e719" }}>N</Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -166,9 +199,15 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+              {settings.map((setting, index) => (
+                <MenuItem sx={{ padding: "10px 20px" }} key={setting} onClick={() => { handleCloseUserMenu(); }}>
+                  <Typography sx={{ textAlign: 'center', display: "flex", flexDirection: "row" }}>
+                    {setting === "Profile" ?
+                      <AccountCircleIcon sx={{ display: { xs: 'flex', md: 'flex', color: 'rgb(113, 194, 84)' }, mr: 1 }} /> :
+                      <LogoutIcon sx={{ display: { xs: 'flex', md: 'flex', color: 'rgb(113, 194, 84)' }, mr: 1 }} />
+                    }
+                    {setting}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -181,18 +220,4 @@ function ResponsiveAppBar() {
 export default ResponsiveAppBar;
 
 
-const styles = {
-  responsive_nav: {
-    margin: "auto",
-    overflow: "auto",
-    background: "linear-gradient(315deg, rgb(19, 81, 51) 3%, rgb(46, 57, 69) 38%, rgb(29, 186, 63) 68%, rgb(22, 58, 50) 98%)",
-    animation: "gradient 15s ease infinite",
-    backgroundSize: "400% 400%",
-    backgroundAttachment: "fixed",
-  },
-};
-
-
-
-// To include the keyframes in a React app, you can inject them into a <style> tag dynamically.
 

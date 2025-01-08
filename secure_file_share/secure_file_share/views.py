@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .serializers import FileSerializer, VerifyAccountSerializer
+from .serializers import FileSerializer, VerifyAccountSerializer, PermissionsSerializer
 from rest_framework import status
 from .models import userList, File, Permissions
 from rest_framework.permissions import AllowAny
@@ -335,3 +335,32 @@ def send_attachment_email(request):
         return Response({"message": "Shared Link sent successfully."}, status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response({"error": f"Failed to send email with attachment. {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def shared_file(request, username):
+    files = Permissions.objects.filter(to_username=username).values_list('from_username', flat=True).distinct()
+
+    if not files.exists():
+        return Response({"message": "No data"}, status=status.HTTP_204_NO_CONTENT)
+
+    # Convert the queryset to a list of unique from_username values
+    unique_from_usernames = list(files)
+
+    return Response({"message": "Successfully retrieved unique from_usernames", "data": unique_from_usernames}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def shared_file_by_user(request, username, from_username):
+    files = Permissions.objects.filter(to_username=username, from_username=from_username)
+
+    if not files.exists():
+        return Response({"message": "No data"}, status=status.HTTP_204_NO_CONTENT)
+
+    # Use the serializer to convert queryset to JSON format
+    serialized_files = PermissionsSerializer(files, many=True).data
+
+    return Response({"message": "Successfully retrieved files", "data": serialized_files}, status=status.HTTP_200_OK)
+
+

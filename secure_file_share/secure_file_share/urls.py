@@ -3,7 +3,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import signup, login_view, files_by_username, serve_shared_file, allUsers, send_attachment_email
+from .views import signup, login_view, files_by_username, serve_shared_file, allUsers, send_attachment_email, shared_file,shared_file_by_user
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import FileUploadView, VerifyOTP, FileDelete
@@ -21,6 +21,8 @@ urlpatterns = [
     path('api/filesDelete', FileDelete.as_view(), name='delete_file'),
     path('api/verify', VerifyOTP.as_view()),
     path('api/allUsers/<str:username>/', allUsers, name = "allUsers"),
-    path('api/sendEmail', send_attachment_email, name="send_attachment_email")
+    path('api/sendEmail', send_attachment_email, name="send_attachment_email"),
+    path('api/sharedFiles/<str:username>/', shared_file, name="shared_file"),
+    path('api/sharedFileByUser/<str:username>/<str:from_username>/', shared_file_by_user, name="shared_file_by_username")
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,12 +1,13 @@
 from rest_framework import serializers
 from .models import File
 import base64
+from rest_framework import serializers
+from .models import Permissions  # Ensure this is your correct model
 
-# class FileSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = File
-#         fields = ['id', 'username', 'filename', 'file',  'uploaded_at']
-
+class PermissionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permissions
+        fields = '__all__'  # Or specify the fields you want to include
 
 class FileSerializer(serializers.ModelSerializer):
     file = serializers.SerializerMethodField()  # Serialize file blob as Base64

@@ -45,7 +45,7 @@ function CheckOtp(props) {
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", marginTop: "22px", marginBottom: "22px" }}>
                     <OtpInput
                         value={otp}
-                        inputStyle={{ padding: "12px", borderRadius: "12px", fontSize: "20px" }}
+                        inputStyle={{ padding: "12px", borderRadius: "5px", borderWidth:"0px", fontSize: "20px" }}
                         onChange={setOtp}
                         numInputs={6}
                         renderSeparator={<span> ⚪  </span>}
@@ -83,7 +83,7 @@ const styles = {
     subTitle: {
         fontSize: "22px",
         fontWeight: "600",
-        color: "black",
+        // color: "black",
         textAlign: "center",
         padding: "20px",
         paddingTop: "0px"
@@ -91,7 +91,7 @@ const styles = {
     description: {
         fontSize: "18px",
         fontWeight: "400",
-        color: "black",
+        // color: "black",
         textAlign: "center",
         padding: "20px",
         paddingTop: "0px"
@@ -102,15 +102,19 @@ const styles = {
         alignItems: 'center',
         backgroundColor: '#f5f5f5',
         background: "linear-gradient(to right, #314755, #26a0da)",
+        background: "radial-gradient(circle, rgba(99,156,72,1) 10%, rgba(9,9,9,1) 50%)",
+       
         padding: '20px',
         height: '100vh',
     },
     registerFormContainer: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         padding: "20px",
         width: "40%",
         borderRadius: "20px",
-        boxShadow: "2px 2px 10px 1px rgba(0,0,0,0.26)"
+        // boxShadow: "2px 2px 10px 1px rgba(0,0,0,0.26)",
+        // backgroundColor: "rgb(130, 201, 97)",
+        color: "white"
     },
     formInput: {
         padding: "12px",
@@ -124,7 +128,8 @@ const styles = {
         border: "none",
         color: "white",
         fontSize: "18px",
-        width: "50%"
+        width: "50%",
+        backgroundColor: "rgba(99,156,72,1)",
     }
 
 };

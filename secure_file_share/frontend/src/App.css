@@ -133,3 +133,28 @@ input[type=file]::file-selector-button:hover {
 .sharedFile:hover {
   transform: scale(1.01);
 }
+
+.registerPage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  height: 80vh;
+  /* max-width:"900px"; */
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .registerPage {
+    flex-direction: column-reverse;
+    justify-content: center;
+    height: auto;
+  }
+}
+
+@media(min-width: 900px){
+  .registerPage {
+   max-width: 1400px;
+  }
+}

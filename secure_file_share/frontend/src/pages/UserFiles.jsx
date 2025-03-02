@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 const UserFiles = ({ username, token }) => {
     const {user, token, loading, error} = useSelector((state) => state.auth);
-    console.log("user nnjbhbh", user)
     return (
         <div>
             <h2>Files for {username}</h2>

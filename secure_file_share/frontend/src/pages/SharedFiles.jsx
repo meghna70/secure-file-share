@@ -119,7 +119,7 @@ export const SharedFile = (props) => {
           Shared File
         </div>
         <div style={{ marginTop: "20px", fontSize: "12px", fontFamily: "Montserrat, serif" }}>
-          by <span style={{ fontWeight: 500 }}>@123Qwerty</span>
+          by <span style={{ fontWeight: 600 }}>{props.username}</span>
         </div>
       </div>
     </div>
